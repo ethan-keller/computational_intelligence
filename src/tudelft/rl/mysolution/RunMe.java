@@ -20,6 +20,8 @@ public class RunMe {
         final int y = 9;
         maze.setR(maze.getState(x, y), 10);
 
+        //maze.setR(maze.getState(9, 0), 5);
+
         //create a robot at starting and reset location (0,0) (top left)
         Agent robot = new Agent(0, 0);
 
@@ -33,6 +35,7 @@ public class RunMe {
         final double alpha = 0.7;
         final double gamma = 0.9;
         final double epsilon = 0.1;
+        // double beta = 0.99
         int maxSteps = 30000;
         //keep learning until you decide to stop
         while (!stop) {
@@ -42,9 +45,11 @@ public class RunMe {
             State state = robot.getState(maze);
             // perform action and get new state
             State newState = robot.doAction(action, maze);
+            // gamma = beta * gamma
             // update Q
             learn.updateQ(state, action, maze.getR(newState), newState, maze.getValidActions(robot), alpha, gamma);
             // if arrived at goal -> reset
+            //for the case of double destination point ((robot.x == x0 && robot.y == y0) || (robot.x == x1 && robot.y == y1))
             if (robot.x == x && robot.y == y) {
                 robot.reset();
             }
