@@ -35,7 +35,7 @@ public class RunMe {
         final double alpha = 0.7;
         final double gamma = 0.9;
         final double epsilon = 0.1;
-        // double beta = 0.99
+        // double beta = 0.995
         int maxSteps = 30000;
         //keep learning until you decide to stop
         while (!stop) {
@@ -45,12 +45,13 @@ public class RunMe {
             State state = robot.getState(maze);
             // perform action and get new state
             State newState = robot.doAction(action, maze);
-            // gamma = beta * gamma
+
             // update Q
             learn.updateQ(state, action, maze.getR(newState), newState, maze.getValidActions(robot), alpha, gamma);
             // if arrived at goal -> reset
             //for the case of double destination point ((robot.x == x0 && robot.y == y0) || (robot.x == x1 && robot.y == y1))
             if (robot.x == x && robot.y == y) {
+                // gamma = beta * gamma
                 robot.reset();
             }
             // stopping criterion
